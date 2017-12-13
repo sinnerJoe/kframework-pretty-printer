@@ -1,0 +1,8 @@
+.stack-work/
+junk/
+nelson-kompiled/
+template-page/
+fact.nel
+*.k
+test/Spec_backup*
+src/TagContentParser_backup.hs
