@@ -6,12 +6,11 @@ b. Use stack to compile:
 Build using stack tool: 
 0) [Install KFramework](https://github.com/andreiarusoaie/k)
 1) [Install stack](https://docs.haskellstack.org/en/stable/README/#how-to-install)
-2) 
--```git clone https://github.com/wildProgrammer/kframework-pretty-printer``` copy the repository
--```cd kframework-pretty-printer``` go into downloaded folder
-- *```stack build``` and then place the generated executables which you can find in .stack-work folder (example: .stack-work/install/x86_64-linux-nopie/lts-9.13/8.0.2/bin) into a folder from PATH variable.
+2) ```git clone https://github.com/wildProgrammer/kframework-pretty-printer``` copy the repository
+3)```cd kframework-pretty-printer``` go into downloaded folder
+4)```stack build``` and then place the generated executables which you can find in .stack-work folder (example: .stack-work/install/x86_64-linux-nopie/lts-9.13/8.0.2/bin) into a folder from PATH variable.
   **or**
-  *```stack install``` - it builds executables and copies them in a place where programs are tipically installed in your system (for example in Arch Linux it is```/home/username/.local/bin/```)
+4*)```stack install``` - it builds executables and copies them in a place where programs are tipically installed in your system (for example in Arch Linux it is```/home/username/.local/bin/```)
 
 
 #Usage
