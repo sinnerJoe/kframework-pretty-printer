@@ -4,15 +4,10 @@ module Lib
       someFunc
     ) where
 
-import System.Process
 import GHC.IO.Handle
 import Text.XML.Light as L
-import qualified Text.XML.Light.Output as XO
-import Text.XML.Light.Lexer as Lexer
 import Data.List
 import Rainbow as R
-import qualified Rainbow.Types as RT
-import Data.String
 import Control.Arrow
 import Data.Maybe
 import qualified System.FilePath as FP

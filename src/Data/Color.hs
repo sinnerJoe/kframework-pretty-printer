@@ -44,8 +44,5 @@ makeColorXMLConf = rootColorNode
     findColorAttr = L.find ((== "color") . fst) . map (\x -> (X.qName $ X.attrKey x, X.attrVal x)) . X.elAttribs
     nodeToColorPair node = (,) (X.qName $ X.elName node) $ snd $ fromMaybe ("","white") (findColorAttr node)
     findColorTagPairs node
-      | null $ X.elChildren node= [nodeToColorPair node]
+      | null $ X.elChildren node = [nodeToColorPair node]
       | otherwise = nodeToColorPair node : (concatMap findColorTagPairs $ X.elChildren node)
-
--- xmlConfToPairs :: X.Element -> [ColorPair]
--- xmlConfToPairs

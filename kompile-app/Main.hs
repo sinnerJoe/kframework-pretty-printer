@@ -14,20 +14,16 @@ main = do
 
   if (Prelude.length args == 2) && (hasCreateHtmlArg args) then do
     let path = last args
-    result <- runKompile [path]
-    when (null result) $ do {parseKFile path ; generateHTMLFile path}
-  else do
-    let [path] = args
     result <- runCrossPlatformCommand "kompile" [path]
-    when (null result) $ parseKFile path
+    when (null result) $ do {parseKFile path ; generateHTMLFile path}
+  else if Prelude.length args == 1 then do
+        let [path] = args
+        result <- runCrossPlatformCommand "kompile" [path]
+        when (null result) $ parseKFile path
+  else
+    putStrLn "[Error] Wrong number of arguments!"
   return ()
 
-
-runKompile :: [String] -> IO(String)
-runKompile args = do
-  print args
-  (_, Just resultHandler, _, _) <-  createProcess (shell $  unwords $ "kompile" : args) {std_out = CreatePipe}
-  hGetContents resultHandler
 
 hasCreateHtmlArg :: [String] -> Bool
 hasCreateHtmlArg (one : rest) = "--html" == one

@@ -1,25 +1,22 @@
 module TagContentParser
-    (
-    parseTagContent
-    ) where
-import Data.Maybe
-import Data.Tree
-import Data.Map as M
-import Data.STRef
+      (
+        parseTagContent
+      ) where
+        
+import           Data.Maybe
 import qualified Data.Text as T
-import Control.Monad
-import Text.ParserCombinators.Parsec as P
-import Text.ParserCombinators.Parsec.Token
-import Control.Applicative hiding (many, (<|>))
-import Text.Parsec.Char
-import Data.List as L
+import           Text.ParserCombinators.Parsec as P
+import           Text.ParserCombinators.Parsec.Token
+import           Control.Applicative hiding (many, (<|>))
+import           Data.List as L
 import qualified Text.Parsec.Prim as Pr
 
 parseTagContent :: Int -> String  -> String
 parseTagContent nr str = case result of
                         Left _ -> str
                         Right res -> if length res >= length str then res else str
-    where result = runParser tagParser (0,nr*2) "" str
+    where result = runParser tagParser (nr*2) "" str
+
 parseKString = try parseVoidKString <|> parseNotVoidKString
 
 parseNotVoidKString = do
@@ -35,9 +32,9 @@ quotedChar =
 
 parantheses openP closeP= do
   char openP
-  Pr.modifyState (incrementStable 2)
+  Pr.modifyState (+ 2)
   content <-  try tagParser <|> consumeJunkInsideParantheses closeP
-  Pr.modifyState (incrementStable (-2))
+  Pr.modifyState (+ (-2))
   char closeP <?> "parantheses: expecting " ++ [closeP]
   return $ (openP : content) ++ [closeP]
 
@@ -50,21 +47,18 @@ kStringInsideBrackets = do
 listItem = do
   string "ListItem "
   let addedSpace = length "ListItem "
-  Pr.modifyState (incrementStable addedSpace)
+  Pr.modifyState (+ addedSpace)
   par <- parantheses '(' ')'
-  Pr.modifyState (incrementStable (-addedSpace))
+  Pr.modifyState (+ (-addedSpace))
   return $ "ListItem " ++ par
 
 setItem = do
   string "SetItem "
   let addedSpace = length " SetItem "
-  Pr.modifyState (incrementStable addedSpace)
+  Pr.modifyState (+ addedSpace)
   par <- parantheses '(' ')'
-  Pr.modifyState (incrementStable (-addedSpace))
+  Pr.modifyState (+ (-addedSpace))
   return $ "SetItem " ++ par
-
-
-
 
 term =   try listItem <|> try setItem <|> try anyParantheses  <|> try lambdaLike <|> try parseKString  <|>  justWord
 
@@ -78,38 +72,35 @@ lambdaLike = do
 
 justWord = many $ noneOf "\\\" \n({})"
 
-consumeList = listItem `sepEndBy1` char ' ' <* Pr.modifyState unsuggest
+consumeList = listItem `sepEndBy1` char ' '
 
-consumeSet= setItem `sepEndBy1` char ' ' <* Pr.modifyState unsuggest
+consumeSet= setItem `sepEndBy1` char ' '
 
 mapItem =  do
   term1 <- term
   char ' '
   string "|->"
   char ' '
-  let addedSpace = 5 + (length term1)
-  Pr.modifyState (applyOrIncrement addedSpace)
+  let addedSpace = length term1 + 5
+  Pr.modifyState (+ addedSpace)
   term2 <- term
-  Pr.modifyState $ undoOrIncrement (-addedSpace)
+  Pr.modifyState $ (+) (-addedSpace)
   return $ term1 ++ " |-> " ++ term2
 
 consumeMap = mapItem `sepEndBy1` char ' '
 
 tagParser = do
-   (_, spacesBefore) <- getState
+   spacesBefore <- getState
    notFollowedBy eof
    char ' '
-   result <- (' ':) . (++" ") <$> (L.intercalate ("\n"++genSpaces (spacesBefore)) <$> (  try consumeMap
+   (' ':) . (++" ") <$> (L.intercalate ("\n"++genSpaces spacesBefore) <$> (  try consumeMap
         <|>  try consumeList <|> try consumeSet  )
         <|> parseKStringPlusSpace <|> (lambdaLike <* char ' ') )
-
-   -- Pr.modifyState (suggest $ lastGroupLen result)
-   return result
 
 thereAreMultipleLines output = '\n' `elem` output
 lastGroupLen output = if thereAreMultipleLines output then length output - lastN else length output
   where
-    lastN = last $ L.findIndices (=='\n') output
+    lastN = last $ elemIndices '\n' output
 
 genSpaces nr = replicate nr ' '
 -- genSpaces nr = "#"  ++ (show nr) ++ "#"
@@ -136,12 +127,3 @@ junkParantheses openP closeP = do
   return $ surround content
 
 surroundByPar (start, end) = ((start : ) . (' ' :)) . (++ [end])
-
-suggest n (oldSugg, stable) = (oldSugg + n, stable)
-
-applySuggested (sugg, stable) = (sugg, stable + sugg)
-undoSuggested (sugg, stable) = (0, stable - sugg)
-applyOrIncrement val (sugg, stable) = if sugg /= 0 then (sugg, stable + sugg) else (sugg, stable + val)
-undoOrIncrement val (sugg, stable) = if sugg /= 0  then (sugg, stable - sugg) else (0 , stable + val)
-unsuggest (sugg, stable) = (0, stable)
-incrementStable amount (sugg, stable) = (sugg, stable + amount)
