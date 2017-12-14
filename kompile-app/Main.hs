@@ -3,9 +3,6 @@ module Main where
 import Lib
 import Kfileparser
 import System.Environment
-import GHC.IO.Handle
-import Control.Applicative
-import System.Process
 import Control.Monad
 import System.RunCommand
 main :: IO ()
