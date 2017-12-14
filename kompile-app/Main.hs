@@ -7,7 +7,7 @@ import GHC.IO.Handle
 import Control.Applicative
 import System.Process
 import Control.Monad
-
+import System.RunCommand
 main :: IO ()
 main = do
   args <- getArgs
@@ -18,7 +18,7 @@ main = do
     when (null result) $ do {parseKFile path ; generateHTMLFile path}
   else do
     let [path] = args
-    result <- runKompile [path]
+    result <- runCrossPlatformCommand "kompile" [path]
     when (null result) $ parseKFile path
   return ()
 
@@ -26,7 +26,7 @@ main = do
 runKompile :: [String] -> IO(String)
 runKompile args = do
   print args
-  (_, Just resultHandler, _, _) <-  createProcess (proc "kompile" args) {std_out = CreatePipe}
+  (_, Just resultHandler, _, _) <-  createProcess (shell $  unwords $ "kompile" : args) {std_out = CreatePipe}
   hGetContents resultHandler
 
 hasCreateHtmlArg :: [String] -> Bool

@@ -22,11 +22,10 @@ import Text.RE.Replace
 import TagContentParser
 import XMLFixer
 import Control.Monad
-
+import System.RunCommand
 someFunc :: [String] -> IO ()
 someFunc args = do
-    (_, Just stringHandler, _, _) <-  createProcess (proc "krun" args) {std_out = CreatePipe}
-    response <- hGetContents stringHandler
+    response <- runCrossPlatformCommand "krun" args
     let (kOutput, kXml) = separateOutput response
     unless (null kOutput) $ R.putChunk $ R.chunk kOutput
     let xmlParseResult = L.parseXMLDoc $ fixXmlString kXml

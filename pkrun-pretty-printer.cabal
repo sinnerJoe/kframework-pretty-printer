@@ -13,14 +13,20 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+
 library
   hs-source-dirs:      src
+  if os(windows)
+    hs-source-dirs:    Windows
+  else
+    hs-source-dirs:    Linux
   exposed-modules:     Lib
                      , Kfileparser
                      , Data.Color
                      , TagContentParser
                      , XMLFixer
                      , HTMLGen
+                     , System.RunCommand
   build-depends:       base >= 4.7 && < 5
                      , process
                      , xml
