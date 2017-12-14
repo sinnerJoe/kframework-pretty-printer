@@ -13,7 +13,7 @@ First of all [install KFramework](https://profs.info.uaic.ro/~arusoaie.andrei/le
      4. ```stack build``` 
      5. Place the generated executables from .stack-work folder (example: ```.stack-work/install/x86_64-linux-nopie/lts-9.13/8.0.2/bin```) into a folder from PATH variable.
 
- Instead of steps iv, v you can use ```stack install``` command which builds executables and copies them in a place where programs are tipically installed(and accesible from PATH variable) in your system (for example in Arch Linux it is```/home/username/.local/bin/```, for Windows 10 ```C:\Users\%username%\AppData\Roaming\local\bin```)
+ Instead of steps **iv** and **v** you can use ```stack install``` command which builds executables and copies them in a place where programs are tipically installed(and accesible from PATH variable) in your system (for example in Arch Linux it is```/home/username/.local/bin/```, for Windows 10 ```C:\Users\%username%\AppData\Roaming\local\bin```)
 
 
 ## Usage
