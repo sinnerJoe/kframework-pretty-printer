@@ -15,7 +15,8 @@ b.Build using stack tool:
 4a. ```stack install``` - it builds executables and copies them in a place where programs are tipically installed in your system (for example in Arch Linux it is```/home/username/.local/bin/```, for Windows 10 ```C:\Users\%username%\AppData\Roaming\local\bin```)
 
 
-#Usage
+# Usage
+
 There are 2 programs:
 1. pkompile - ```pkompile [--html] <k_file>.k```
 Functionality: 
