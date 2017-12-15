@@ -49,4 +49,8 @@ generateHTML el filename = T.concat [htmlPrefix filename, generateHTML' $ readTa
       where
         txt = if null children then content else T.concat $ map generateHTML' children
         color = snd $ fromMaybe (T.empty, T.empty) $ L.find (\(k,_) -> k == T.pack "color") attribs
-        result = T.concat [htmlCellPrefix color, txt, htmlCellSuffix color tagName]
+        actualTagName = if (T.pack "multiplicity", T.pack "*") `elem` attribs then
+                              T.concat [ tagName, T.pack "*"]
+                        else
+                              tagName
+        result = T.concat [htmlCellPrefix color, txt, htmlCellSuffix color actualTagName]
