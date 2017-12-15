@@ -55,4 +55,4 @@ searchForConfiguration allContent = if not indexBoundsKept || null selectAlmostA
       noStartGarbage = dropWhile (not . matchBegin) contentLines
       selectAlmostAllLines = takeWhile (not . matchEnd) noStartGarbage
       selectLines = selectAlmostAllLines ++ [noStartGarbage !! length selectAlmostAllLines]
-      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+)( |>)///${tg}|]
+      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+)( |>).*///${tg}|]

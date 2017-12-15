@@ -27,7 +27,7 @@ main = do
   -- print $ parse parseElement "Error1!" "<Kurwa> hey yo </Kurwa>"
   -- print $ parse parseNumbers "Error1!" "15 12 51"
 -- searchForConfiguration :: String -> Maybe T.Text
-searchForConfiguration allContent =Just $ selectLines
+searchForConfiguration allContent =Just $ rootTagName
       -- Just $ limitedFixXmlText $ T.unwords (selectLines)
     where
       indexBoundsKept = length noStartGarbage > length selectAlmostAllLines
@@ -38,7 +38,7 @@ searchForConfiguration allContent =Just $ selectLines
       noStartGarbage = dropWhile (not . matchBegin) contentLines
       selectAlmostAllLines = takeWhile (not . matchEnd) noStartGarbage
       selectLines = selectAlmostAllLines ++ [noStartGarbage !! length selectAlmostAllLines]
-      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+)(>| )///${tg}|]
+      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+)(>| ).*///${tg}|]
 
 insideQuotes' ('\\':'"': str) = '\\':'"':insideQuotes' str
 insideQuotes' ('"': str) = '"' : limitedFixXmlString' str
