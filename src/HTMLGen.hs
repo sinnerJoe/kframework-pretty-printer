@@ -7,6 +7,7 @@ import           Text.XML.Light as X
 import qualified Data.Text as T
 import           Data.Maybe
 import qualified Data.List as L
+import           XMLFixer
 type TagName = T.Text
 type Attrib = (T.Text, T.Text)
 data TagData = TagData T.Text T.Text [Attrib] [TagData]
@@ -17,7 +18,7 @@ readTagData el = TagData tagName content attribs children
     tagName = T.pack $ qName $ elName el
     attribs = map attrToPair $ elAttribs el
     children = map readTagData $ elChildren el
-    content = if null children then T.pack $ X.strContent  el else T.empty
+    content = if null children then unfixXmlText $ T.pack $ X.strContent  el else T.empty
 
 
 attrToPair :: Attr -> Attrib

@@ -3,13 +3,14 @@ module Data.Color
   makeColorXMLConf
 ) where
 
-import qualified Rainbow as R
-import qualified Text.XML.Light as X
+import qualified Rainbow               as R
+import qualified Text.XML.Light        as X
 import qualified Text.XML.Light.Output as XO
-import Control.Monad.ST
-import Data.Char
-import qualified Data.List as L
-import Data.Maybe
+import           Control.Monad.ST
+import           Data.Char
+import qualified Data.List             as L
+import           Data.Maybe
+
 type Color = String
 
 isHexa :: String -> Bool

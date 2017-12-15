@@ -2,11 +2,14 @@
 module XMLFixer (
   fixXmlString,
   unfixXmlString,
-  separateOutput
+  separateOutput,
+  limitedFixXmlText,
+  unfixXmlText
 ) where
-import Text.RE.TDFA.String
-import Text.RE.Replace
-import Data.Maybe
+import           Text.RE.TDFA.String
+import           Text.RE.Replace
+import           Data.Maybe
+import qualified Data.Text as T
 fixXmlString = fixXmlLower'
 
 fixXmlLower' ('<':c:str) = if c `notElem` '/':['A'..'Z']++['a'..'z']
@@ -20,9 +23,17 @@ insideQuotes ('\\':'"': str) = '\\':'"':insideQuotes str
 insideQuotes ('"': str) = '"' : fixXmlLower' str
 insideQuotes ('<':str) =  "--lt--" ++ insideQuotes str
 insideQuotes (c:str) = c : insideQuotes str
-unfixXmlString = unfixXmlLower
 
-unfixXmlLower str = replaceAll "<" $ str *=~ [re|--lt--|]
+
+limitedFixXmlText = T.pack . limitedFixXmlString' . T.unpack
+
+limitedFixXmlString' ('\"':str) = '\"' : insideQuotes str
+limitedFixXmlString' (c:str) = c : limitedFixXmlString' str
+limitedFixXmlString' [] = []
+
+unfixXmlText = T.replace (T.pack "--lt--") (T.pack "<")
+
+unfixXmlString str = replaceAll "<" $ str *=~ [re|--lt--|]
 
 separateOutput text = if isJust tagName then (takeOutput text, drop (length $ takeOutput text) text) else ([], text)
   where

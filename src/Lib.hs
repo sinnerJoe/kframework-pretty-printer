@@ -22,7 +22,7 @@ someFunc :: [String] -> IO ()
 someFunc args = do
     response <- runCrossPlatformCommand "krun" args
     let (kOutput, kXml) = separateOutput response
-    unless (null kOutput) $ R.putChunk $ R.chunk kOutput
+    unless (null kOutput) $ putStrLn $ kOutput
     let xmlParseResult = L.parseXMLDoc $ fixXmlString kXml
     if isNothing xmlParseResult then
       putStrLn response
@@ -31,8 +31,14 @@ someFunc args = do
       mbConfigFilePath <- findConfigFile
       if isJust mbConfigFilePath then do
         configFile <- readFile $ fromJust mbConfigFilePath
-        let colorMap = readConfig $ fromJust $ L.parseXMLDoc configFile
-        mapM_ R.putChunkLn $ elementToColouredString' parsedXml 0 colorMap
+        -- let colorMap = readConfig $ fromJust $ L.parseXMLDoc configFile
+        let parsedConfig =  L.parseXMLDoc configFile
+        if isNothing parsedConfig then do
+            mapM_ R.putChunkLn $ elementToString parsedXml
+            putStrLn "Malformed colors.conf"
+        else
+            let colorMap =  readConfig $ fromJust parsedConfig in
+            mapM_ R.putChunkLn $ elementToColouredString' parsedXml 0 colorMap
       else
         mapM_ R.putChunkLn $ elementToString parsedXml
 
