@@ -18,8 +18,9 @@ readTagData el = TagData tagName content attribs children
     tagName = T.pack $ qName $ elName el
     attribs = map attrToPair $ elAttribs el
     children = map readTagData $ elChildren el
-    content = if null children then unfixXmlText $ T.pack $ X.strContent  el else T.empty
+    content = if null children then gtAndltForHTML  $ T.pack $ X.strContent  el else T.empty
 
+gtAndltForHTML = T.replace (T.pack "--gt--") (T.pack "&gt;") . T.replace (T.pack "--lt--") (T.pack "&lt;")
 
 attrToPair :: Attr -> Attrib
 attrToPair attr = (T.pack $ qName $ attrKey attr, T.pack $ attrVal attr)

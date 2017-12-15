@@ -25,13 +25,7 @@ insideQuotes ('<':str) =  "--lt--" ++ insideQuotes str
 insideQuotes (c:str) = c : insideQuotes str
 
 
-limitedFixXmlText = T.pack . limitedFixXmlString' . T.unpack
 
-limitedFixXmlString' ('\"':str) = '\"' : insideQuotes str
-limitedFixXmlString' (c:str) = c : limitedFixXmlString' str
-limitedFixXmlString' [] = []
-
-unfixXmlText = T.replace (T.pack "--lt--") (T.pack "<")
 
 unfixXmlString str = replaceAll "<" $ str *=~ [re|--lt--|]
 
@@ -43,3 +37,18 @@ separateOutput text = if isJust tagName then (takeOutput text, drop (length $ ta
     isTag _ = False
     takeOutput (c : str) = if isTag (c:str) then [] else c : takeOutput str
     takeOutput [] = []
+
+
+insideQuotes' ('\\':'"': str) = '\\':'"':insideQuotes' str
+insideQuotes' ('"': str) = '"' : limitedFixXmlString' str
+insideQuotes' ('<':str) =  "--lt--" ++ insideQuotes' str
+insideQuotes' ('>':str) =  "--gt--" ++ insideQuotes' str
+insideQuotes' (c:str) = c : insideQuotes' str
+
+limitedFixXmlText = T.pack . limitedFixXmlString' . T.unpack
+
+limitedFixXmlString' ('"':str) = '"' : insideQuotes' str
+limitedFixXmlString' (c:str) = c : limitedFixXmlString' str
+limitedFixXmlString' [] = []
+
+unfixXmlText = T.replace (T.pack "--gt--") (T.pack ">") . T.replace (T.pack "--lt--") (T.pack "<")

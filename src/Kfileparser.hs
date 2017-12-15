@@ -46,13 +46,13 @@ parseColors xmlString path = do
 
 searchForConfiguration :: String -> Maybe T.Text
 searchForConfiguration allContent = if not indexBoundsKept || null selectAlmostAllLines then Nothing else
-      Just $ limitedFixXmlText $ T.unlines selectLines
+      Just $ limitedFixXmlText $ T.unwords selectLines
     where
       indexBoundsKept = length noStartGarbage > length selectAlmostAllLines
       contentLines = map T.pack $ lines allContent
-      matchBegin = matched . (?=~ [re|configuration *< *[A-Za-z]+|])
+      matchBegin = matched . (?=~ [re| *configuration *< *[A-Za-z]+( |>)|])
       matchEnd = matched . (?=~ (either error id $ compileRegex $ "<[ ]*/[ ]*" ++ T.unpack rootTagName ++ "[ ]*>"))
       noStartGarbage = dropWhile (not . matchBegin) contentLines
       selectAlmostAllLines = takeWhile (not . matchEnd) noStartGarbage
       selectLines = selectAlmostAllLines ++ [noStartGarbage !! length selectAlmostAllLines]
-      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+) .*///${tg}|]
+      rootTagName = head noStartGarbage ?=~/ [ed| *configuration *< *${tg}([A-Za-z]+)( |>)///${tg}|]
