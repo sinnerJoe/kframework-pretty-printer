@@ -10,10 +10,11 @@ First of all [install KFramework](https://profs.info.uaic.ro/~arusoaie.andrei/le
      1. [Install stack](https://docs.haskellstack.org/en/stable/README/#how-to-install)
      2. ```git clone https://github.com/wildProgrammer/kframework-pretty-printer``` copy the repository
      3. ```cd kframework-pretty-printer``` go into downloaded folder
-     4. ```stack build``` 
-     5. Place the generated executables from .stack-work folder (example: ```.stack-work/install/x86_64-linux-nopie/lts-9.13/8.0.2/bin```) into a folder from PATH variable.
+     4. ```stack setup```
+     5. ```stack build``` 
+     6. Place the generated executables from .stack-work folder (example: ```.stack-work/install/x86_64-linux-nopie/lts-9.13/8.0.2/bin```) into a folder from PATH variable.
 
- Instead of steps **iv** and **v** you can use ```stack install``` command which builds executables and copies them in a place where programs are tipically installed(and accesible from PATH variable) in your system (for example in Arch Linux it is```/home/username/.local/bin/```, for Windows 10 ```C:\Users\%username%\AppData\Roaming\local\bin```)
+ Instead of steps **v** and **vi** you can use ```stack install``` command which builds executables and copies them in a place where programs are tipically installed(and accesible from PATH variable) in your system (for example in Arch Linux it is```/home/username/.local/bin/```, for Windows 10 ```C:\Users\%username%\AppData\Roaming\local\bin```)
 
 
 ## Usage
@@ -29,5 +30,8 @@ Functionality:
 ## Known Issues
 
 - pkrun can't print coloured text in windows terminal. This can be solved by installing some POSIX compliant shell like cygwin or msys2.
-- pkompile and pkrun assume that you don't have other characters in you tag names other than lowercase and uppercase latin letters, naming tags differently may break them
-- don't use `<` character inside tags' content from K **configuration**, xml parser won't handle it. You can have this character in the output of krun, though.
+- pkompile and pkrun assumes that you don't have other characters in you tag names other than lowercase and uppercase latin letters, naming tags differently may break them
+- pkompile won't recognize configuration if the opening of the first tag isn't one the same line with keyword ```configuration```
+- you won't see intermediate outputs from your program if it's waiting for input but will still be able to input data. For example: 
+```print("x="); input(x);``` - you won't see ```x=``` before you introduce x's value.
+- kompile can't handle K comments in lines between tags, it won't necessarily generate errors, as a rule o thumb it is recommended to write them in other places.  
