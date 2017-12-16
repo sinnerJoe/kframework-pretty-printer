@@ -27,6 +27,11 @@ Functionality:
 2. pkrun - ```pkrun <arg>``` where arg is usually a *\*.k* file but it can be anything that is accepted by krun. The program isn't tested with other arguments than aforementioned single argument so use it at your own risk and frustration.
      * Parses the output of **krun** and transforms it in a more human-readable form by indenting tags and the contents within.
 
+### Examples of output
+
+[krun](https://s33.postimg.org/nk90u7vi3/krun.png)
+[pkrun](https://s33.postimg.org/m57g5ipa3/pkrun_coloured.png)
+[pkrun + colors.conf](https://s33.postimg.org/xitzg4rwr/pkrun_default.png)
 ## Known Issues
 
 - pkrun can't print coloured text in windows terminal. This can be solved by installing some POSIX compliant shell like cygwin or msys2.
