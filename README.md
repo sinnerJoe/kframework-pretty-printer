@@ -29,9 +29,15 @@ Functionality:
 
 ### Examples of output
 
-[krun](https://s33.postimg.org/nk90u7vi3/krun.png)
-[pkrun](https://s33.postimg.org/m57g5ipa3/pkrun_coloured.png)
-[pkrun + colors.conf](https://s33.postimg.org/xitzg4rwr/pkrun_default.png)
+**krun**
+![krun](https://s33.postimg.org/nk90u7vi3/krun.png)
+
+**pkrun**
+![pkrun](https://s33.postimg.org/m57g5ipa3/pkrun_coloured.png)
+
+**pkrun + colors.conf**
+![pkrun + colors.conf](https://s33.postimg.org/xitzg4rwr/pkrun_default.png)
+
 ## Known Issues
 
 - pkrun can't print coloured text in windows terminal. This can be solved by installing some POSIX compliant shell like cygwin or msys2.
