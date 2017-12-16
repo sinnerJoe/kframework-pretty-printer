@@ -6,3 +6,4 @@ fact.nel
 *.k
 test/Spec_backup*
 src/TagContentParser_backup.hs
+images/
