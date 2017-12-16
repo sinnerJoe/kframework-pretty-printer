@@ -4,7 +4,7 @@
 
 First of all [install KFramework](https://profs.info.uaic.ro/~arusoaie.andrei/lectures/PLP/2017/week1/lab1.html)
 , then you have 2 options:
-* Download the apps from bin/<your_os> folder and place them in a folder from PATH variable (place them in kframework folder along with regular krun executable).
+* Download the apps from bin/<your_os> folder and place them in a folder from PATH variable (place them in kframework folder along with regular krun executable). **Note:** In case you can't execute binaries under linux because you don't have permissions to do so use ```chmod +x pkrun && chmod +x pkompile```.
 
 * Build using stack tool: 
      1. [Install stack](https://docs.haskellstack.org/en/stable/README/#how-to-install)
