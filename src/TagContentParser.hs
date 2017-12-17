@@ -34,7 +34,6 @@ parantheses openP closeP= do
   char openP
   Pr.modifyState (+ 2)
   content <-  try tagParser <|> consumeJunkInsideParantheses closeP
-  Pr.modifyState (+ (-2))
   char closeP <?> "parantheses: expecting " ++ [closeP]
   return $ (openP : content) ++ [closeP]
 
@@ -49,7 +48,6 @@ listItem = do
   let addedSpace = length "ListItem "
   Pr.modifyState (+ addedSpace)
   par <- parantheses '(' ')'
-  Pr.modifyState (+ (-addedSpace))
   return $ "ListItem " ++ par
 
 setItem = do
@@ -57,7 +55,6 @@ setItem = do
   let addedSpace = length " SetItem "
   Pr.modifyState (+ addedSpace)
   par <- parantheses '(' ')'
-  Pr.modifyState (+ (-addedSpace))
   return $ "SetItem " ++ par
 
 term =   try listItem <|> try setItem <|> try anyParantheses  <|> try lambdaLike <|> try parseKString  <|>  justWord
@@ -84,7 +81,6 @@ mapItem =  do
   let addedSpace = length term1 + 5
   Pr.modifyState (+ addedSpace)
   term2 <- term
-  Pr.modifyState $ (+) (-addedSpace)
   return $ term1 ++ " |-> " ++ term2
 
 consumeMap = mapItem `sepEndBy1` char ' '
