@@ -2,7 +2,7 @@ module TagContentParser
       (
         parseTagContent
       ) where
-        
+
 import           Data.Maybe
 import qualified Data.Text as T
 import           Text.ParserCombinators.Parsec as P
@@ -105,9 +105,7 @@ lastGroupLen output = if thereAreMultipleLines output then length output - lastN
 genSpaces nr = replicate nr ' '
 -- genSpaces nr = "#"  ++ (show nr) ++ "#"
 
-parseKStringPlusSpace = do
-   content <- parseKString <* char ' '
-   return $ content ++ " "
+parseKStringPlusSpace = parseKString <* char ' '
 
 
 justWordWithoutAcolades = many $ noneOf ("\" \n" ++ "{}")
