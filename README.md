@@ -42,7 +42,7 @@ Functionality:
 
 - pkrun can't print coloured text in windows terminal. This can be solved by installing some POSIX compliant shell like cygwin or msys2.
 - pkompile and pkrun assume that you don't have other characters in you tag names than lowercase and uppercase latin letters, naming tags differently may break them
-- pkompile won't recognize configuration if the opening of the first tag isn't one the same line with keyword ```configuration```
+- pkompile won't recognize configuration if the opening of the first tag isn't on the same line with keyword ```configuration```
 - you won't see intermediate outputs from your program if it's waiting for input but you will still be able to input data. For example: 
 ```print("x="); input(x);``` - you won't see ```x=``` before you introduce x's value.
 - kompile can't handle K comments in lines between tags, it won't necessarily generate errors, as a rule o thumb it is recommended to write them in other places.  
