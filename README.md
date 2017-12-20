@@ -20,8 +20,7 @@ First of all [install KFramework](https://profs.info.uaic.ro/~arusoaie.andrei/le
 ## Usage
 
 There are 2 programs:
-1. pkompile - ```pkompile [--html] <k_file>.k```
-Functionality: 
+1. pkompile - ```pkompile [--html] <k_file>```
      * Generates colors.conf file inside ```*-kompiled``` folder, it contains colors found in the attributes of tags in K configuration.
      * By using *--html* flag the program generates a HTML file which vizualizes configuration tags as cells with labels and content.
 2. pkrun - ```pkrun <arg>``` where arg is usually a *\*.k* file but it can be anything that is accepted by krun. The program isn't tested with other arguments than aforementioned single argument so use it at your own risk and frustration.
