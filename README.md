@@ -29,13 +29,13 @@ There are 2 programs:
 ### Examples of output
 
 **krun**
-![krun](https://s33.postimg.org/w2igyk20v/krun.png)
+![krun](images/krun.png)
 
 **pkrun**
-![pkrun](https://s33.postimg.org/xitzg4rwv/pkrun_default.png)
+![pkrun](images/pkrun_default.png)
 
 **pkrun + colors.conf**
-![pkrun + colors.conf](https://s33.postimg.org/ws19axxfj/pkrun_coloured.png)
+![pkrun + colors.conf](images/pkrun_coloured.png)
 
 ## Known Issues
 
